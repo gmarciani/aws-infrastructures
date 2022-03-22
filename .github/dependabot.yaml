@@ -1,6 +1,6 @@
 version: 2
 updates:
   - package-ecosystem: pip
-    directory: /
+    directory: /dev-workspace
     schedule:
       interval: daily
