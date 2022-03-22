@@ -1,3 +1,9 @@
+# Visual Studio Code
+.vscode
+
+# CDK
+cdk.out
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -127,3 +133,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+dev-workspace/cdk.out/cdk.out
+dev-workspace/cdk.out/DevWorkspaceStack.assets.json
+dev-workspace/cdk.out/DevWorkspaceStack.template.json
+dev-workspace/cdk.out/manifest.json
+dev-workspace/cdk.out/tree.json
+.vscode/settings.json
+
+
+# CDK
+config.override.yaml

@@ -1,0 +1,5 @@
+[flake8]
+ignore =
+    W291, # trailing whitespaceflake8(W291)
+    E128  # continuation line under-indented for visual indentflake8(E128)
+max-line-length = 120
