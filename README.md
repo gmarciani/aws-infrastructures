@@ -18,5 +18,6 @@ pre-commit install
 ## Usage
 
 ```
-
+cdk bootstrap aws://AWS_ACCOUNT_ID/AWS_REGION_NAME
+./cdk-deploy-to.sh AWS_ACCOUNT_ID AWS_REGION_NAME
 ```
