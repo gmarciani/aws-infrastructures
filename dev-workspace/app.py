@@ -13,7 +13,10 @@ logging.info("Loaded configuration", config)
 
 app = cdk.App()
 
-env = cdk.Environment(account=getenv("CDK_DEFAULT_ACCOUNT"), region=getenv("CDK_DEFAULT_REGION"))
+account = getenv("CDK_DEPLOY_ACCOUNT", getenv("CDK_DEFAULT_ACCOUNT"))
+region = getenv("CDK_DEPLOY_REGION", getenv("CDK_DEFAULT_REGION"))
+
+env = cdk.Environment(account=account, region=region)
 
 DevWorkspaceStack(app, "DevWorkspaceStack", config, env=env)
 

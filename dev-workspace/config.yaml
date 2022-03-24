@@ -1,1 +1,7 @@
-BucketName: "A-BUCKET-NAME"
+BucketName: a-bucket-name
+Vpc:
+  Name: a-vpc-name
+  Cidr: 10.0.0.0/16
+PrefixLists:
+  eu-west-1: pl-123456789
+  us-west-2: pl-123456789
