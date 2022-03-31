@@ -15,6 +15,6 @@ class SimpleBucket(s3.Bucket):
             enforce_ssl=True,
             object_ownership=s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
             public_read_access=False,
-            removal_policy=RemovalPolicy.RETAIN,
+            removal_policy=RemovalPolicy.DESTROY,
             versioned=True,
         )
