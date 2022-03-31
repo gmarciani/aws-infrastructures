@@ -5,3 +5,17 @@ Vpc:
 PrefixLists:
   eu-west-1: pl-123456789
   us-west-2: pl-123456789
+RegionsMetadata:
+  eu-west-1:
+    Name: Dublin
+    AvailabilityZones:
+      eu-west-1a: DublinA
+      eu-west-1b: DublinB
+      eu-west-1c: DublinC
+  us-west-2:
+    Name: Oregon
+    AvailabilityZones:
+      us-west-2a: OregonA
+      us-west-2b: OregonB
+      us-west-2c: OregonC
+      us-west-2d: OregonD
