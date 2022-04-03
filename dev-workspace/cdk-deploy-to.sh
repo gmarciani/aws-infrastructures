@@ -3,6 +3,7 @@ if [[ $# -ge 2 ]]; then
     export CDK_DEPLOY_ACCOUNT=$1
     export CDK_DEPLOY_REGION=$2
     shift; shift
+    cdk bootstrap aws://$CDK_DEPLOY_ACCOUNT/$CDK_DEPLOY_REGION
     npx cdk deploy "$@"
     exit $?
 else
