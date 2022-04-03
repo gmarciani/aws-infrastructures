@@ -20,16 +20,16 @@ class DevWorkspaceStack(Stack):
         # Tags
         Tags.of(self).add("Stack", "DevWorkspaceStack")
 
-        # Budgets
-        SimpleBudget(
-            self,
-            amount=config["Budget"]["Amount"],
-            threshold=config["Budget"]["Threshold"],
-            email=config["Budget"]["Email"],
-        )
-
         # Resources to deploy only to the main region
         if region == config["MainRegion"]:
+            # Budgets
+            SimpleBudget(
+                self,
+                amount=config["Budget"]["Amount"],
+                threshold=config["Budget"]["Threshold"],
+                email=config["Budget"]["Email"],
+            )
+
             # Buckets
             SimpleBucket(self, name=config["BucketName"])
 
