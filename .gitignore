@@ -143,4 +143,3 @@ dev-workspace/cdk.out/tree.json
 
 # CDK
 cdk.context.json
-config.override.yaml
