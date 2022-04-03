@@ -1,4 +1,5 @@
 from aws_cdk import aws_ec2 as ec2
+from common.regions import get_az_name
 from constructs import Construct
 
 SUBNET_TYPES = (ec2.SubnetType.PUBLIC, ec2.SubnetType.PRIVATE_ISOLATED)
@@ -15,7 +16,7 @@ class SimpleVpc(ec2.Vpc):
             enable_dns_support=True,
             subnet_configuration=[
                 ec2.SubnetConfiguration(
-                    name=f"{type.name}-{region_metadata['AvailabilityZones'][az]}".lower(), subnet_type=type
+                    name=f"{type.name}-{get_az_name(az, region_metadata)}".lower(), subnet_type=type
                 )
                 for az in azs
                 for type in SUBNET_TYPES

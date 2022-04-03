@@ -7,16 +7,17 @@ import aws_cdk as cdk
 from common.config import parse_config
 from dev_workspace.dev_workspace_stack import DevWorkspaceStack
 
-config = parse_config(f"{dirname(abspath(__file__))}/config.yaml", f"{dirname(abspath(__file__))}/config.override.yaml")
-
+# Configuration
+config = parse_config(f"{dirname(abspath(__file__))}/config")
 logging.info("Loaded configuration", config)
 
-app = cdk.App()
-
+# Environment
 account = getenv("CDK_DEPLOY_ACCOUNT", getenv("CDK_DEFAULT_ACCOUNT"))
 region = getenv("CDK_DEPLOY_REGION", getenv("CDK_DEFAULT_REGION"))
-
 env = cdk.Environment(account=account, region=region)
+
+# App
+app = cdk.App()
 
 DevWorkspaceStack(app, "DevWorkspaceStack", config, env=env)
 
