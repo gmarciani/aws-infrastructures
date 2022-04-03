@@ -1,0 +1,5 @@
+Name: EC2ReadOnlyRole
+Description: Role assumed by EC2 instances to have read-only access.
+AssumedBy: ec2.amazonaws.com
+ManagedPolicies:
+  - arn:aws:iam::aws:policy/ReadOnlyAccess
