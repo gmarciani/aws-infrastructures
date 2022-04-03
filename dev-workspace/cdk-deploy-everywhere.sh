@@ -9,11 +9,15 @@ shift
 
 CURRENT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 CDK_DEPLOY_SCRIPT="$CURRENT_PATH/cdk-deploy-to.sh"
-REGIONS=$(aws ec2 describe-regions --all-regions --filter Name=opt-in-status,Values=opt-in-not-required --query "Regions[].{Name:RegionName}" --output text)
+REGIONS=($(aws ec2 describe-regions --all-regions --filter Name=opt-in-status,Values=opt-in-not-required --query "Regions[].{Name:RegionName}" --output text))
+N_REGIONS="${#REGIONS[@]}"
 
-for region in $REGIONS; do
-    echo "Deploying to $ACCOUNT_ID in region $region"
+for ((i=0 ; i<$N_REGIONS ; i++)); do
+    region=${REGIONS[@]:$i:1}
+    echo "[INFO] Deploying to $ACCOUNT_ID in region $region ($((i+1))/$N_REGIONS)"
     check_auth=$(aws sts get-caller-identity --region $region 2>&1)
     [[ $? -ne 0 ]] && echo "[WARNING] Skipping region $region: cannot authenticate with this region" && continue
     bash $CDK_DEPLOY_SCRIPT $ACCOUNT_ID $region "$@"
 done
+
+echo "[INFO] Deployment completed for $ACCOUNT_ID in the following regions: ${REGIONS[@]}"
