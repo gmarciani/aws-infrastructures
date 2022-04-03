@@ -140,6 +140,8 @@ dev-workspace/cdk.out/manifest.json
 dev-workspace/cdk.out/tree.json
 .vscode/settings.json
 
+# Private folders
+.private
 
 # CDK
 cdk.context.json
