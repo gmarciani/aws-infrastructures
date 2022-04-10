@@ -2,6 +2,7 @@ from aws_cdk import Stack, Tags
 from constructs import Construct
 from dev_workspace.buckets import SimpleBucket
 from dev_workspace.budgets import SimpleBudget
+from dev_workspace.lambdas import CleanupLambda
 from dev_workspace.pipelines import CodeToBucketPipeline
 from dev_workspace.repositories import SimpleRepository
 from dev_workspace.roles import SimpleRole
@@ -31,7 +32,7 @@ class DevWorkspaceStack(Stack):
             )
 
             # Buckets
-            SimpleBucket(self, name=config["BucketName"])
+            bucket = SimpleBucket(self, name=config["BucketName"])
 
             # Roles
             for role_config in config.get("Roles", []):
@@ -44,8 +45,12 @@ class DevWorkspaceStack(Stack):
             }
 
             # CodeToBucket
-            pipeline = CodeToBucketPipeline(
-                self, name="DevWorkspace-CodeToBucket", repositories=repositories, config=config["CodeToBucket"]
+            CodeToBucketPipeline(
+                self,
+                name="DevWorkspace-CodeToBucket",
+                repositories=repositories,
+                bucket=bucket,
+                config=config["CodeToBucket"],
             )
 
         # Resources to deploy in all regions
@@ -61,3 +66,6 @@ class DevWorkspaceStack(Stack):
         # Security
         SSHSecurityGroup(self, vpc=vpc, prefix_list=config["PrefixLists"][self.region])
         RDPSecurityGroup(self, vpc=vpc, prefix_list=config["PrefixLists"][self.region])
+
+        # Cleanup Function
+        CleanupLambda(self, config=config["Cleanup"])
