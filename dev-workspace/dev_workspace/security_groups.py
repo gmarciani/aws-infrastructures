@@ -16,7 +16,7 @@ class SimpleSecurityGroup(ec2.SecurityGroup):
 
 class SSHSecurityGroup(SimpleSecurityGroup):
     def __init__(self, scope: Construct, vpc: str, prefix_list: str):
-        super().__init__(scope, name="SSH", description="Allow restricted SSH access", vpc=vpc)
+        super().__init__(scope, name="SSH-Secure", description="Allow restricted SSH access", vpc=vpc)
         self.add_ingress_rule(
             peer=ec2.Peer.prefix_list(prefix_list),
             connection=ec2.Port.tcp(22),
@@ -26,7 +26,7 @@ class SSHSecurityGroup(SimpleSecurityGroup):
 
 class RDPSecurityGroup(SimpleSecurityGroup):
     def __init__(self, scope: Construct, vpc: str, prefix_list: str):
-        super().__init__(scope, name="RDP", description="Allow restricted RDP access", vpc=vpc)
+        super().__init__(scope, name="RDP-Secure", description="Allow restricted RDP access", vpc=vpc)
         self.add_ingress_rule(
             peer=ec2.Peer.prefix_list(prefix_list),
             connection=ec2.Port.tcp(3389),
