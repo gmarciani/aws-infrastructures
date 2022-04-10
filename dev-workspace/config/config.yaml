@@ -1,5 +1,8 @@
 MainRegion: us-west-2
 BucketName: a-bucket-name
+KeyPair:
+  Name: my-keypair
+  Path: /path/to/my-keypair.pem
 Vpc:
   Name: a-vpc-name
   Cidr: 10.0.0.0/16
@@ -13,8 +16,10 @@ Repositories:
 CodeToBucket:
   - Repository: CodeCommitRepositoryName
     Branch: master
-    Paths:
-      - RepositoryPathToCopy1
+Cleanup:
+    - Type: SecurityGroup
+      Filters:
+        GroupName: "launch-wizard-.*"
 
 PrefixLists:
   af-south-1: pl-123456789
