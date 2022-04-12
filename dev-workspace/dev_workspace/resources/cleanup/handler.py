@@ -19,19 +19,19 @@ def parse_date(s):
     return datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%f%z")
 
 
-def build_deletion_filter(filters):
-    filter_functions = []
-    for key, value in filters.items():
-        if key == "CreationDate":
-            filter_fn = lambda resource: parse_date(resource[key]) < (
-                datetime.now(parse_date(resource[key]).tzinfo - timedelta(days=value))
-            )
-        else:
-            value_pattern = re.compile(value)
-            filter_fn = lambda resource: re.match(value_pattern, resource[key])
-        filter_functions.append(filter_fn)
-    deletion_filter = lambda resource: all(filter_fn(resource) for filter_fn in filter_functions)
-    return deletion_filter
+def select_resources_to_delete(resources, filters):
+    resources_to_delete = []
+    for resource in resources:
+        for key, value in filters.items():
+            if key in ["CreationDate", "StartTime"]:
+                resource_value = parse_date(resource[key]) if type(resource[key]) is str else resource[key]
+                if not resource_value < (datetime.now(resource_value.tzinfo) - timedelta(days=int(value))):
+                    continue
+            else:
+                if not re.match(re.compile(value), resource[key]):
+                    continue
+            resources_to_delete.append(resource)
+    return resources_to_delete
 
 
 def cleanup_security_groups(filters):
@@ -42,9 +42,7 @@ def cleanup_security_groups(filters):
 
     resources = ec2_client.describe_security_groups(MaxResults=100)["SecurityGroups"]
 
-    deletion_filter = build_deletion_filter(filters)
-
-    resources_to_delete = list(filter(deletion_filter, resources))
+    resources_to_delete = select_resources_to_delete(resources, filters)
 
     logger.info(f"Found {len(resources_to_delete)} Security Groups to delete out of {len(resources)}")
 
@@ -72,16 +70,14 @@ def cleanup_images(filters):
         Owners=[ACCOUNT], IncludeDeprecated=True, Filters=[{"Name": "is-public", "Values": ["false"]}]
     )["Images"]
 
-    deletion_filter = build_deletion_filter(filters)
-
-    resources_to_delete = list(filter(deletion_filter, resources))
+    resources_to_delete = select_resources_to_delete(resources, filters)
 
     logger.info(f"Found {len(resources_to_delete)} Images to delete out of {len(resources)}")
 
     for resource in resources_to_delete:
         resource_id = resource["ImageId"]
         try:
-            # ec2_client.deregister_image(ImageId=resource_id)
+            ec2_client.deregister_image(ImageId=resource_id)
             response["Successes"].append(resource_id)
         except Exception as e:
             logger.error(f"Cannot delete Image {resource_id}: {e}")
@@ -95,10 +91,26 @@ def cleanup_images(filters):
 def cleanup_snapshots(filters):
     response = dict(Successes=[], Failures=[])
     logger.info(f"Snapshots cleanup started: filters={filters}")
-    resources = []
-    resources_to_delete = []
+
+    ec2_client = boto3.client("ec2", region_name=REGION)
+
+    resources = ec2_client.describe_snapshots(OwnerIds=[ACCOUNT], MaxResults=1000)["Snapshots"]
+
+    resources_to_delete = select_resources_to_delete(resources, filters)
+
     logger.info(f"Found {len(resources_to_delete)} Snapshots to delete out of {len(resources)}")
+
+    for resource in resources_to_delete:
+        resource_id = resource["SnapshotId"]
+        try:
+            ec2_client.delete_snapshot(SnapshotId=resource_id)
+            response["Successes"].append(resource_id)
+        except Exception as e:
+            logger.error(f"Cannot delete Snapshot {resource_id}: {e}")
+            response["Failures"].append(resource_id)
+
     logger.info(f"Snapshots cleanup complete: {response}")
+
     return response
 
 
