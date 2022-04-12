@@ -19,6 +19,7 @@ class CleanupLambda(_lambda.Function):
             runtime=_lambda.Runtime.PYTHON_3_9,
             handler="handler.main",
             code=_lambda.Code.from_asset(os.path.join(os.path.dirname(__file__), "resources/cleanup")),
+            memory_size=512,
             timeout=Duration.seconds(900),
             environment={"REGION": scope.region, "ACCOUNT": scope.account, "CONFIG": json.dumps(config)},
         )
@@ -85,5 +86,6 @@ class CleanupLambda(_lambda.Function):
                         "ec2:DeleteSnapshot",
                     ],
                     resources=[f"arn:aws:ec2:{scope.region}::snapshot/*"],
+                    conditions={"StringEquals": {"ec2:Owner": scope.account}},
                 )
             )
