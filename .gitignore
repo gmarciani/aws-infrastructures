@@ -1,6 +1,10 @@
 # Visual Studio Code
 .vscode
 
+# IntelliJ
+.idea
+*.iml
+
 # CDK
 cdk.out
 
