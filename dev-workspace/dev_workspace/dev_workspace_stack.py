@@ -3,6 +3,7 @@ from constructs import Construct
 from dev_workspace.buckets import SimpleBucket
 from dev_workspace.budgets import SimpleBudget
 from dev_workspace.lambdas import CleanupLambda
+from dev_workspace.maintenance import SimpleMaintenance
 from dev_workspace.pipelines import CodeToBucketPipeline
 from dev_workspace.repositories import SimpleRepository
 from dev_workspace.roles import SimpleRole
@@ -16,7 +17,6 @@ class DevWorkspaceStack(Stack):
 
         # Region
         region = self.region
-        azs = self.availability_zones
 
         # Tags
         Tags.of(self).add("Stack", "DevWorkspaceStack")
@@ -57,9 +57,7 @@ class DevWorkspaceStack(Stack):
         # Networking
         vpc = SimpleVpc(
             self,
-            name=config["Vpc"]["Name"],
             cidr=config["Vpc"]["Cidr"],
-            azs=azs,
             region_metadata=config["RegionsMetadata"][region],
         )
 
@@ -69,3 +67,7 @@ class DevWorkspaceStack(Stack):
 
         # Cleanup Function
         CleanupLambda(self, config=config["Cleanup"])
+
+        # Maintenance
+        for maintenance_config in config["Maintenance"]:
+            SimpleMaintenance(self, config=maintenance_config)
