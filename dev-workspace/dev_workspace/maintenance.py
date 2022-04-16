@@ -31,20 +31,23 @@ class SimpleMaintenance:
             for idx, target_config in enumerate(config["Targets"])
         ]
 
-        self.task = ssm.CfnMaintenanceWindowTask(
-            scope,
-            f"{name}-Task",
-            name=f"DevWorkspace-{name}-Task",
-            window_id=self.window.ref,
-            targets=[
-                ssm.CfnMaintenanceWindowTask.TargetProperty(
-                    key="WindowTargetIds", values=[target.ref for target in self.targets]
-                )
-            ],
-            priority=1,
-            task_type="AUTOMATION",
-            task_arn=config["Task"],
-            cutoff_behavior="CONTINUE_TASK",
-            max_concurrency="10",
-            max_errors="0",
-        )
+        self.tasks = [
+            ssm.CfnMaintenanceWindowTask(
+                scope,
+                f"{name}-Task-{idx}",
+                name=f"DevWorkspace-{name}-Task-{idx}",
+                window_id=self.window.ref,
+                targets=[
+                    ssm.CfnMaintenanceWindowTask.TargetProperty(
+                        key="WindowTargetIds", values=[target.ref for target in self.targets]
+                    )
+                ],
+                priority=idx,
+                task_type="AUTOMATION",
+                task_arn=task,
+                cutoff_behavior="CONTINUE_TASK",
+                max_concurrency="10",
+                max_errors="0",
+            )
+            for idx, task in enumerate(config["Tasks"])
+        ]

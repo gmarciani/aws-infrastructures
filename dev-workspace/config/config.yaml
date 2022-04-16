@@ -24,7 +24,8 @@ Cleanup:
 Maintenance:
   - Name: "InstancePatching"
     Schedule: cron(0 5 ? * MON *)
-    Task: AWS-PatchInstanceWithRollback
+    Tasks:
+      - AWS-PatchInstanceWithRollback
     Targets:
       - tag:Patching: ["Enabled"]
       - tag-key: ["Tag1", "Tag2"]
