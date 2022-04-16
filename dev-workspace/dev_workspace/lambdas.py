@@ -10,7 +10,7 @@ from constructs import Construct
 
 
 class CleanupLambda(_lambda.Function):
-    def __init__(self, scope: Construct, config: list):
+    def __init__(self, scope: Construct, config: dict):
         super().__init__(
             scope,
             "CleanupLambda",
@@ -31,12 +31,12 @@ class CleanupLambda(_lambda.Function):
             rule_name="CleanupLambdaSchedule",
             description="Scheduling for function CleanupLambda",
             enabled=True,
-            schedule=events.Schedule.rate(Duration.days(1)),
+            schedule=events.Schedule.expression(config["Schedule"]),
         )
 
         rule.add_target(targets.LambdaFunction(self))
 
-        if any(element["Type"] == "SecurityGroup" for element in config):
+        if any(element["Type"] == "SecurityGroup" for element in config["Targets"]):
             self.add_to_role_policy(
                 iam.PolicyStatement(
                     actions=[
@@ -54,7 +54,7 @@ class CleanupLambda(_lambda.Function):
                 )
             )
 
-        if any(element["Type"] == "Image" for element in config):
+        if any(element["Type"] == "Image" for element in config["Targets"]):
             self.add_to_role_policy(
                 iam.PolicyStatement(
                     actions=[
@@ -73,7 +73,7 @@ class CleanupLambda(_lambda.Function):
                 )
             )
 
-        if any(element["Type"] == "Snapshot" for element in config):
+        if any(element["Type"] == "Snapshot" for element in config["Targets"]):
             self.add_to_role_policy(
                 iam.PolicyStatement(
                     actions=["ec2:DescribeSnapshots"],
