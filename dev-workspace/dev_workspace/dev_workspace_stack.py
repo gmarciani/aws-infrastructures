@@ -70,7 +70,7 @@ class DevWorkspaceStack(Stack):
         CleanupLambda(self, config=config["Cleanup"])
 
         # Maintenance
-        for maintenance_config in config["Maintenance"]:
+        for maintenance_config in config.get("Maintenance", []):
             if maintenance_config.get("Region", region) == region:
                 SimpleMaintenance(self, config=maintenance_config)
 
