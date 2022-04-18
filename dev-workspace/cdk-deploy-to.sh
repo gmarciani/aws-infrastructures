@@ -24,8 +24,8 @@ if [[ $# -ge 2 ]]; then
     echo "[INFO] Deploying CDK for account $CDK_DEPLOY_ACCOUNT in region $CDK_DEPLOY_REGION"
     npx cdk deploy "$@"
 
-    echo "[INFO] Removing CDK bootstrap resources for account $CDK_DEPLOY_ACCOUNT in region $CDK_DEPLOY_REGION"
-    aws cloudformation delete-stack --region $CDK_DEPLOY_REGION --stack-name CDKToolkit
+#    echo "[INFO] Removing CDK bootstrap resources for account $CDK_DEPLOY_ACCOUNT in region $CDK_DEPLOY_REGION"
+#    aws cloudformation delete-stack --region $CDK_DEPLOY_REGION --stack-name CDKToolkit
 
     exit $?
 else
