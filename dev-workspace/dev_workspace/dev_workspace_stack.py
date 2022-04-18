@@ -7,6 +7,7 @@ from dev_workspace.maintenance import SimpleMaintenance
 from dev_workspace.pipelines import CodeToBucketPipeline
 from dev_workspace.repositories import SimpleRepository
 from dev_workspace.roles import SimpleRole
+from dev_workspace.secrets import SimpleSecret
 from dev_workspace.security_groups import RDPSecurityGroup, SSHSecurityGroup
 from dev_workspace.vpcs import SimpleVpc
 
@@ -72,3 +73,8 @@ class DevWorkspaceStack(Stack):
         for maintenance_config in config["Maintenance"]:
             if maintenance_config.get("Region", region) == region:
                 SimpleMaintenance(self, config=maintenance_config)
+
+        # Secrets
+        for secret_config in config.get("Secrets", []):
+            if secret_config.get("Region", region) == region:
+                SimpleSecret(self, name=secret_config["Name"], value=secret_config["Value"])

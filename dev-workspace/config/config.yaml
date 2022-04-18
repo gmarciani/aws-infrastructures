@@ -25,10 +25,14 @@ Maintenance:
   - Name: "InstancePatching"
     Schedule: cron(0 5 ? * MON *)
     Tasks:
-      - AWS-PatchInstanceWithRollback
+      - Name: AWS-PatchInstanceWithRollback
+        Parameters:
     Targets:
       - tag:Patching: ["Enabled"]
       - tag-key: ["Tag1", "Tag2"]
+Secrets:
+  - Name: MySecret
+    Value: MySecretValue
 PrefixLists:
   af-south-1: pl-123456789
   ap-east-1: pl-123456789
