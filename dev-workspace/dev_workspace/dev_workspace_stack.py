@@ -70,4 +70,5 @@ class DevWorkspaceStack(Stack):
 
         # Maintenance
         for maintenance_config in config["Maintenance"]:
-            SimpleMaintenance(self, config=maintenance_config)
+            if maintenance_config.get("Region", region) == region:
+                SimpleMaintenance(self, config=maintenance_config)
