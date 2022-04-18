@@ -17,5 +17,9 @@ class SimpleRole(iam.Role):
 
         for policy_statement in config.get("PolicyStatements", []):
             self.add_to_policy(
-                iam.PolicyStatement(actions=policy_statement["Actions"], resources=policy_statement["Resources"])
+                iam.PolicyStatement(
+                    actions=policy_statement.get("Actions", []),
+                    resources=policy_statement.get("Resources", []),
+                    conditions=policy_statement.get("Conditions", []),
+                )
             )
