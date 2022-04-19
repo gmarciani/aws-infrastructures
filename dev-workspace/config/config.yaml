@@ -22,14 +22,16 @@ Cleanup:
       Filters:
         GroupName: "launch-wizard-.*"
 Maintenance:
-  - Name: "InstancePatching"
+  - Name: InstancePatching
     Schedule: cron(0 5 ? * MON *)
     Tasks:
-      - Name: AWS-PatchInstanceWithRollback
+      - Name: AWS-RunPatchBaseline
         Parameters:
+          Operation: [ Install ]
+          RebootOption: [ RebootIfNeeded ]
     Targets:
-      - tag:Patching: ["Enabled"]
-      - tag-key: ["Tag1", "Tag2"]
+      - tag:Patching: [ Enabled ]
+      - tag-key: [ Tag1, Tag2 ]
 Secrets:
   - Name: MySecret
     Value: MySecretValue
