@@ -22,14 +22,18 @@ def parse_date(s):
 def select_resources_to_delete(resources, filters):
     resources_to_delete = []
     for resource in resources:
+        mark_for_deletion = True
         for key, value in filters.items():
-            if key in ["CreationDate", "StartTime"]:
+            if key in ["CreationDate", "LastAccessedDate", "StartTime"]:
                 resource_value = parse_date(resource[key]) if type(resource[key]) is str else resource[key]
                 if not resource_value < (datetime.now(resource_value.tzinfo) - timedelta(days=int(value))):
-                    continue
+                    mark_for_deletion = False
+                    break
             else:
                 if not re.match(re.compile(value), resource[key]):
-                    continue
+                    mark_for_deletion = False
+                    break
+        if mark_for_deletion:
             resources_to_delete.append(resource)
     return resources_to_delete
 
@@ -114,10 +118,37 @@ def cleanup_snapshots(filters):
     return response
 
 
+def cleanup_secrets(filters):
+    response = dict(Successes=[], Failures=[])
+    logger.info(f"Secrets cleanup started: filters={filters}")
+
+    sm_client = boto3.client("secretsmanager", region_name=REGION)
+
+    resources = sm_client.list_secrets()["SecretList"]
+
+    resources_to_delete = select_resources_to_delete(resources, filters)
+
+    logger.info(f"Found {len(resources_to_delete)} Secrets to delete out of {len(resources)}")
+
+    for resource in resources_to_delete:
+        resource_id = resource["ARN"]
+        try:
+            sm_client.delete_secret(SecretId=resource_id)
+            response["Successes"].append(resource_id)
+        except Exception as e:
+            logger.error(f"Cannot delete Secret {resource_id}: {e}")
+            response["Failures"].append(resource_id)
+
+    logger.info(f"Secrets cleanup complete: {response}")
+
+    return response
+
+
 CLEANUP_FUNCTIONS = {
     "SecurityGroup": cleanup_security_groups,
     "Image": cleanup_images,
     "Snapshot": cleanup_snapshots,
+    "Secret": cleanup_secrets,
 }
 
 
@@ -129,12 +160,12 @@ def main(event, lambda_context):
 
     response = dict(Successes={}, Failures={})
 
-    for cleanup_config in CONFIG:
+    for cleanup_config in CONFIG["Targets"]:
         resource_type = cleanup_config["Type"]
         filters = cleanup_config["Filters"]
 
         if resource_type not in CLEANUP_FUNCTIONS:
-            logger.warn(f"[Cannot cleanup resource of type {resource_type}: cleanup function not found. Skipping.")
+            logger.warning(f"[Cannot cleanup resource of type {resource_type}: cleanup function not found. Skipping.")
             continue
 
         try:
@@ -148,4 +179,4 @@ def main(event, lambda_context):
 
 
 if __name__ == "__main__":
-    main(event=None, context=None)
+    main(event=None, lambda_context=None)

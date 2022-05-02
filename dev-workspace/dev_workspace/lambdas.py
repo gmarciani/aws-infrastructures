@@ -89,3 +89,19 @@ class CleanupLambda(_lambda.Function):
                     conditions={"StringEquals": {"ec2:Owner": scope.account}},
                 )
             )
+
+        if any(element["Type"] == "Secret" for element in config["Targets"]):
+            self.add_to_role_policy(
+                iam.PolicyStatement(
+                    actions=["secretsmanager:ListSecrets"],
+                    resources=["*"],
+                )
+            )
+            self.add_to_role_policy(
+                iam.PolicyStatement(
+                    actions=[
+                        "secretsmanager:DeleteSecret",
+                    ],
+                    resources=[f"arn:aws:secretsmanager:{scope.region}::secret/*"],
+                )
+            )
