@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
+
+# Usage: cdk-bootstrap-to.sh [ACCOUNT_ID] [REGION]
+
+
 if [[ $# -ge 2 ]]; then
     export CDK_DEPLOY_ACCOUNT=$1
     export CDK_DEPLOY_REGION=$2
     shift; shift
 
-    echo "[INFO] Bootstrapping CDK for account $CDK_DEPLOY_ACCOUNT in region $CDK_DEPLOY_REGION"
-    cdk bootstrap aws://$CDK_DEPLOY_ACCOUNT/$CDK_DEPLOY_REGION
+    CURR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+    $CURR_DIR/cdk-bootstrap-to.sh $CDK_DEPLOY_ACCOUNT $CDK_DEPLOY_REGION
 
     echo "[INFO] Checking key pair in region $CDK_DEPLOY_REGION"
     KEY_PAIR_CONFIG="$(python -c "from common.config import parse_config;c=parse_config('config');print(c['KeyPair']['Name'] + '=' + c['KeyPair']['Path'])")"
