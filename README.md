@@ -18,6 +18,6 @@ pre-commit install
 ## Usage
 
 ```
-./cdk-deploy-to.sh AWS_ACCOUNT_ID AWS_REGION_NAME [--require-approval never]
-./cdk-deploy-everywhere.sh AWS_ACCOUNT_ID [--require-approval never]
+[Infrastructure]/tools/cdk-deploy-to.sh AWS_ACCOUNT_ID AWS_REGION_NAME [--require-approval never]
+[Infrastructure]/tools/cdk-deploy-everywhere.sh AWS_ACCOUNT_ID [--require-approval never]
 ```
