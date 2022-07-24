@@ -1,0 +1,136 @@
+af-south-1:
+  Name: CapeTown
+  AvailabilityZones:
+    af-south-1a: CapeTown1
+    af-south-1b: CapeTown2
+    af-south-1c: CapeTown3
+ap-east-1:
+  Name: HongKong
+  AvailabilityZones:
+    ap-east-1a: HongKong1
+    ap-east-1b: HongKong2
+    ap-east-1c: HongKong3
+ap-northeast-1:
+  Name: Tokyo
+  AvailabilityZones:
+    ap-northeast-1a: Tokyo1
+    ap-northeast-1c: Tokyo2
+    ap-northeast-1d: Tokyo3
+ap-northeast-2:
+  Name: Seoul
+  AvailabilityZones:
+    ap-northeast-2a: Seoul1
+    ap-northeast-2b: Seoul2
+    ap-northeast-2c: Seoul3
+    ap-northeast-2d: Seoul4
+ap-northeast-3:
+  Name: Osaka
+  AvailabilityZones:
+    ap-northeast-3a: Osaka1
+    ap-northeast-3b: Osaka2
+    ap-northeast-3c: Osaka3
+ap-south-1:
+  Name: Mumbai
+  AvailabilityZones:
+    ap-south-1a: Mumbai1
+    ap-south-1b: Mumbai2
+    ap-south-1c: Mumbai3
+ap-southeast-1:
+  Name: Singapore
+  AvailabilityZones:
+    ap-southeast-1a: Singapore1
+    ap-southeast-1b: Singapore2
+    ap-southeast-1c: Singapore3
+ap-southeast-2:
+  Name: Sydney
+  AvailabilityZones:
+    ap-southeast-2a: Sydney1
+    ap-southeast-2b: Sydney2
+    ap-southeast-2c: Sydney3
+ap-southeast-3:
+  Name: ApSouthEast3
+  AvailabilityZones:
+    ap-southeast-2a: ApSouthEast31
+    ap-southeast-2b: ApSouthEast32
+    ap-southeast-2c: ApSouthEast33
+ca-central-1:
+  Name: Montreal
+  AvailabilityZones:
+    ca-central-1a: Montreal1
+    ca-central-1b: Montreal2
+    ca-central-1d: Montreal3
+eu-central-1:
+  Name: Frankfurt
+  AvailabilityZones:
+    eu-central-1a: Frankfurt1
+    eu-central-1b: Frankfurt2
+    eu-central-1c: Frankfurt3
+eu-north-1:
+  Name: Stockholm
+  AvailabilityZones:
+    eu-north-1a: Stockholm1
+    eu-north-1b: Stockholm2
+    eu-north-1c: Stockholm3
+eu-south-1:
+  Name: Milan
+  AvailabilityZones:
+    eu-south-1a: Milan1
+    eu-south-1b: Milan2
+    eu-south-1c: Milan3
+eu-west-1:
+  Name: Dublin
+  AvailabilityZones:
+    eu-west-1a: Dublin1
+    eu-west-1b: Dublin2
+    eu-west-1c: Dublin3
+eu-west-2:
+  Name: London
+  AvailabilityZones:
+    eu-west-2a: London1
+    eu-west-2b: London2
+    eu-west-2c: London3
+eu-west-3:
+  Name: Paris
+  AvailabilityZones:
+    eu-west-3a: Paris1
+    eu-west-3b: Paris2
+    eu-west-3c: Paris3
+me-south-1:
+  Name: MeSouth1
+  AvailabilityZones:
+    ap-southeast-2a: MeSouth11
+    ap-southeast-2b: MeSouth12
+    ap-southeast-2c: MeSouth13
+sa-east-1:
+  Name: SaoPaulo
+  AvailabilityZones:
+    sa-east-1a: SaoPaulo1
+    sa-east-1b: SaoPaulo2
+    sa-east-1c: SaoPaulo3
+us-east-1:
+  Name: Virginia
+  AvailabilityZones:
+    us-east-1a: Virginia1
+    us-east-1b: Virginia2
+    us-east-1c: Virginia3
+    us-east-1d: Virginia4
+    us-east-1e: Virginia5
+    us-east-1f: Virginia6
+us-east-2:
+  Name: Ohio
+  AvailabilityZones:
+    us-east-2a: Ohio1
+    us-east-2b: Ohio2
+    us-east-2c: Ohio3
+us-west-1:
+  Name: California
+  AvailabilityZones:
+    us-west-1a: California1
+    us-west-1b: California2
+us-west-2:
+  Name: Oregon
+  AvailabilityZones:
+    us-west-2a: Oregon1
+    us-west-2b: Oregon2
+    us-west-2c: Oregon3
+    us-west-2d: Oregon4

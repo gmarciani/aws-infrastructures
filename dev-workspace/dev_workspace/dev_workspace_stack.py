@@ -59,7 +59,7 @@ class DevWorkspaceStack(Stack):
         vpc = SimpleVpc(
             self,
             cidr=config["Vpc"]["Cidr"],
-            region_metadata=config["RegionsMetadata"][region],
+            region_metadata=config["Regions"][region],
         )
 
         # Security

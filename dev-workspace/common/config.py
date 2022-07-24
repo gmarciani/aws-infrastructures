@@ -9,6 +9,11 @@ def parse_config(config_dir) -> dict:
     main_config_files += glob.glob(f"{config_dir}/*.override.yaml")
     config = parse_yaml(*main_config_files)
 
+    regions_config_files = list()
+    regions_config_files += glob.glob(f"{config_dir}/regions/*[!override].yaml")
+    regions_config_files += glob.glob(f"{config_dir}/regions/*.override.yaml")
+    config["Regions"] = parse_yaml(*regions_config_files)
+
     config["Roles"] = [
         parse_yaml(role_file) for role_file in glob.glob(f"{config_dir}/roles/**/*.yaml", recursive=True)
     ]
