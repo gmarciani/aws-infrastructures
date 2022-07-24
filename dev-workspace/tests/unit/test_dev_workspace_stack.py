@@ -1,6 +1,6 @@
 import aws_cdk as core
 import aws_cdk.assertions as assertions
-from dev_workspace.dev_workspace_stack import DevWorkspaceStack
+from stack.dev_workspace_stack import DevWorkspaceStack
 
 
 # example tests. To run these tests, uncomment this file along with the example

@@ -5,7 +5,7 @@ from os.path import abspath, dirname
 
 import aws_cdk as cdk
 from common.config import parse_config
-from dev_workspace.dev_workspace_stack import DevWorkspaceStack
+from stack.dev_workspace_stack import DevWorkspaceStack
 
 # Configuration
 config = parse_config(f"{dirname(abspath(__file__))}/config")

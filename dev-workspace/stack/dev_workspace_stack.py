@@ -1,15 +1,15 @@
 from aws_cdk import Stack, Tags
 from constructs import Construct
-from dev_workspace.buckets import SimpleBucket
-from dev_workspace.budgets import SimpleBudget
-from dev_workspace.lambdas import CleanupLambda
-from dev_workspace.maintenance import SimpleMaintenance
-from dev_workspace.pipelines import CodeToBucketPipeline
-from dev_workspace.repositories import SimpleRepository
-from dev_workspace.roles import SimpleRole
-from dev_workspace.secrets import SimpleSecret
-from dev_workspace.security_groups import RDPSecurityGroup, SSHSecurityGroup
-from dev_workspace.vpcs import SimpleVpc
+from stack.buckets import SimpleBucket
+from stack.budgets import SimpleBudget
+from stack.lambdas import CleanupLambda
+from stack.maintenance import SimpleMaintenance
+from stack.pipelines import CodeToBucketPipeline
+from stack.repositories import SimpleRepository
+from stack.roles import SimpleRole
+from stack.secrets import SimpleSecret
+from stack.security_groups import RDPSecurityGroup, SSHSecurityGroup
+from stack.vpcs import SimpleVpc
 
 
 class DevWorkspaceStack(Stack):
