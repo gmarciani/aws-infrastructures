@@ -13,6 +13,10 @@ def parse_config(config_dir) -> dict:
         parse_yaml(role_file) for role_file in glob.glob(f"{config_dir}/roles/**/*.yaml", recursive=True)
     ]
 
+    config["Secrets"] = [
+        parse_yaml(secret_file) for secret_file in glob.glob(f"{config_dir}/secrets/**/*.yaml", recursive=True)
+    ]
+
     return config
 
 

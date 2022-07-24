@@ -76,5 +76,4 @@ class DevWorkspaceStack(Stack):
 
         # Secrets
         for secret_config in config.get("Secrets", []):
-            if secret_config.get("Region", region) == region:
-                SimpleSecret(self, name=secret_config["Name"], value=secret_config["Value"])
+            SimpleSecret(self, name=secret_config["Name"], value=secret_config["Value"])

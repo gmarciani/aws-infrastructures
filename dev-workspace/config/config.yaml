@@ -32,9 +32,6 @@ Maintenance:
     Targets:
       - tag:Patching: [ Enabled ]
       - tag-key: [ Tag1, Tag2 ]
-Secrets:
-  - Name: MySecret
-    Value: MySecretValue
 PrefixLists:
   af-south-1: pl-123456789
   ap-east-1: pl-123456789
