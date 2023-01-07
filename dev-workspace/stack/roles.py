@@ -20,6 +20,6 @@ class SimpleRole(iam.Role):
                 iam.PolicyStatement(
                     actions=policy_statement.get("Actions", []),
                     resources=policy_statement.get("Resources", []),
-                    conditions=policy_statement.get("Conditions", []),
+                    conditions=policy_statement.get("Conditions", None),
                 )
             )
