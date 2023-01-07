@@ -10,10 +10,10 @@ pip install -r requirements.txt
 ```
 
 ## Development
-`
+```
 pip install pre-commit
 pre-commit install
-`
+```
 
 ## Usage
 
