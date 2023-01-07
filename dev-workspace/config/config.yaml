@@ -1,5 +1,7 @@
 MainRegion: us-west-2
-BucketName: a-bucket-name
+Bucket:
+  Name: a-bucket-name
+  PublicPath: public
 KeyPair:
   Name: my-keypair
   Path: /path/to/my-keypair.pem

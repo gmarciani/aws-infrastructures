@@ -8,7 +8,8 @@ from stack.pipelines import CodeToBucketPipeline
 from stack.repositories import SimpleRepository
 from stack.roles import SimpleRole
 from stack.secrets import SimpleSecret
-from stack.security_groups import RDPSecurityGroup, SSHSecurityGroup
+from stack.security_groups import (AllVpcTrafficSecurityGroup, EfsSecurityGroup, EmptySecurityGroup, FsxSecurityGroup,
+                                   RDPSecurityGroup, SSHSecurityGroup)
 from stack.vpcs import SimpleVpc
 
 
@@ -33,7 +34,7 @@ class DevWorkspaceStack(Stack):
             )
 
             # Buckets
-            bucket = SimpleBucket(self, name=config["BucketName"])
+            bucket = SimpleBucket(self, name=config["Bucket"]["Name"])
 
             # Roles
             for role_config in config.get("Roles", []):
@@ -62,9 +63,13 @@ class DevWorkspaceStack(Stack):
             region_metadata=config["Regions"][region],
         )
 
-        # Security
+        # Security Groups
+        AllVpcTrafficSecurityGroup(self, vpc=vpc)
+        EmptySecurityGroup(self, vpc=vpc)
         SSHSecurityGroup(self, vpc=vpc, prefix_list=config["PrefixLists"][self.region])
         RDPSecurityGroup(self, vpc=vpc, prefix_list=config["PrefixLists"][self.region])
+        EfsSecurityGroup(self, vpc=vpc)
+        FsxSecurityGroup(self, vpc=vpc)
 
         # Cleanup Function
         CleanupLambda(self, config=config["Cleanup"])
