@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-# Usage: cdk-bootstrap-to.sh [ACCOUNT_ID] [REGION]
-
+# Usage: cdk-deploy-to.sh [ACCOUNT_ID] [REGION] (optional args..)
+# Examples:
+#     cdk-deploy-to.sh 123456789 eu-west-1
+#     cdk-deploy-to.sh 123456789 cn-north-1 --profile my-cn-north-1-profile
 
 if [[ $# -ge 2 ]]; then
     export CDK_DEPLOY_ACCOUNT=$1
@@ -10,7 +12,7 @@ if [[ $# -ge 2 ]]; then
 
     CURR_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-    $CURR_DIR/cdk-bootstrap-to.sh $CDK_DEPLOY_ACCOUNT $CDK_DEPLOY_REGION
+    $CURR_DIR/cdk-bootstrap-to.sh $CDK_DEPLOY_ACCOUNT $CDK_DEPLOY_REGION $CDK_DEPLOY_PROFILE
 
     echo "[INFO] Checking key pair in region $CDK_DEPLOY_REGION"
     KEY_PAIR_CONFIG="$(python -c "from common.config import parse_config;c=parse_config('config');print(c['KeyPair']['Name'] + '=' + c['KeyPair']['Path'])")"
