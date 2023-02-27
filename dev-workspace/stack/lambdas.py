@@ -50,7 +50,7 @@ class CleanupLambda(_lambda.Function):
                     actions=[
                         "ec2:DeleteSecurityGroup",
                     ],
-                    resources=[f"arn:aws:ec2:{scope.region}:{scope.account}:security-group/*"],
+                    resources=[f"arn:{scope.partition}:ec2:{scope.region}:{scope.account}:security-group/*"],
                 )
             )
 
@@ -68,7 +68,7 @@ class CleanupLambda(_lambda.Function):
                     actions=[
                         "ec2:DeregisterImage",
                     ],
-                    resources=[f"arn:aws:ec2:{scope.region}::image/*"],
+                    resources=[f"arn:{scope.partition}:ec2:{scope.region}::image/*"],
                     conditions={"StringEquals": {"ec2:Owner": scope.account}, "Bool": {"ec2:Public": "False"}},
                 )
             )
@@ -85,7 +85,7 @@ class CleanupLambda(_lambda.Function):
                     actions=[
                         "ec2:DeleteSnapshot",
                     ],
-                    resources=[f"arn:aws:ec2:{scope.region}::snapshot/*"],
+                    resources=[f"arn:{scope.partition}:ec2:{scope.region}::snapshot/*"],
                     conditions={"StringEquals": {"ec2:Owner": scope.account}},
                 )
             )
@@ -102,6 +102,6 @@ class CleanupLambda(_lambda.Function):
                     actions=[
                         "secretsmanager:DeleteSecret",
                     ],
-                    resources=[f"arn:aws:secretsmanager:{scope.region}::secret/*"],
+                    resources=[f"arn:{scope.partition}:secretsmanager:{scope.region}::secret/*"],
                 )
             )
