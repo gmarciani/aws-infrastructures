@@ -11,7 +11,7 @@ pip install -r requirements.txt
 
 ## Development
 ```
-pip install pre-commit
+pip install -r requirements-dev.txt
 pre-commit install
 ```
 
