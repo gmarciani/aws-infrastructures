@@ -59,6 +59,12 @@ ca-central-1:
     ca-central-1a: Montreal1
     ca-central-1b: Montreal2
     ca-central-1d: Montreal3
+cn-north-1:
+  Name: Beijing
+  AvailabilityZones:
+    cn-north-1a: Beijing1
+    cn-north-1b: Beijing2
+    cn-north-1d: Beijing3
 eu-central-1:
   Name: Frankfurt
   AvailabilityZones:

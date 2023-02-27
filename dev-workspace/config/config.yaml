@@ -45,6 +45,7 @@ PrefixLists:
   ap-southeast-2: pl-123456789
   ap-southeast-3: pl-123456789
   ca-central-1: pl-123456789
+  cn-north-1: pl-123456789
   eu-central-1: pl-123456789
   eu-north-1: pl-123456789
   eu-south-1: pl-123456789
