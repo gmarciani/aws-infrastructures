@@ -1,5 +1,6 @@
 Name: EC2AdminRole
 Description: Role assumed by EC2 instances to have administrator access.
-AssumedBy: ec2.amazonaws.com
+AssumedBy:
+  - ec2.amazonaws.com
 ManagedPolicies:
   - arn:${AWS::Partition}:iam::aws:policy/AdministratorAccess
