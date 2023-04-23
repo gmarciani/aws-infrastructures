@@ -2,6 +2,6 @@ Name: LambdaAdminRole
 Description: Role assumed by Lambda functions to have administrator access.
 AssumedBy:
   - lambda.amazonaws.com
-ManagedPolicies:
-  - arn:${AWS::Partition}:iam::aws:policy/AWSLambdaExecute
-  - arn:${AWS::Partition}:iam::aws:policy/AdministratorAccess
+AwsManagedPolicies:
+  - AWSLambdaExecute
+  - AdministratorAccess
