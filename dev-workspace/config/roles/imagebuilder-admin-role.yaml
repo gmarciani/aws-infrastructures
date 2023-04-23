@@ -1,0 +1,13 @@
+Name: EC2ImageBuilderRole
+Description: Role assumed by EC2 instances launched by ImageBuilder.
+AssumedBy:
+  - ec2.amazonaws.com
+AwsManagedPolicies:
+  - AmazonSSMManagedInstanceCore
+  - EC2InstanceProfileForImageBuilderECRContainerBuilds
+  - EC2InstanceProfileForImageBuilder
+PolicyStatements:
+  - Actions:
+      - ssm:sendCommand
+    Resources:
+      - arn:${AWS::Partition}:ec2:${AWS::Region}:${AWS::AccountId}:instance/*
