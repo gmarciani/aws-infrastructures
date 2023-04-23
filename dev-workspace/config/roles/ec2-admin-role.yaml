@@ -1,4 +1,4 @@
-Name: EC2AdminRole
+Name: devworkspace.ec2.admin.role
 Description: Role assumed by EC2 instances to have administrator access.
 AssumedBy:
   - ec2.amazonaws.com
