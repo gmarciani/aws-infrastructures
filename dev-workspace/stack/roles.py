@@ -8,10 +8,11 @@ DEFAULT_PRINCIPAL = "ec2.${AWS::URLSuffix}"
 
 class SimpleRole(iam.Role):
     def __init__(self, scope: Construct, config: dict):
+        role_name = config["Name"]
         super().__init__(
             scope,
-            config["Name"],
-            role_name=config["Name"],
+            role_name,
+            role_name=role_name,
             assumed_by=parse_principal(str(config.get("AssumedBy", [Fn.sub(DEFAULT_PRINCIPAL)])[0])),
             description=config.get("Description", ""),
         )
@@ -30,3 +31,8 @@ class SimpleRole(iam.Role):
                     conditions=policy_statement.get("Conditions", None),
                 )
             )
+
+        profile_name = f"{self.role_name}.instance-profile"
+        iam.CfnInstanceProfile(
+            scope, f"Profile-{role_name}", instance_profile_name=profile_name, roles=[self.role_name], path="/"
+        )
