@@ -49,6 +49,16 @@ class RDPSecurityGroup(SimpleSecurityGroup):
         )
 
 
+class DcvSecurityGroup(SimpleSecurityGroup):
+    def __init__(self, scope: Construct, vpc: ec2.Vpc, prefix_list: str):
+        super().__init__(scope, name="DCV-Secure", description="Allow restricted DCV access", vpc=vpc)
+        self.add_ingress_rule(
+            peer=ec2.Peer.prefix_list(prefix_list),
+            connection=ec2.Port.tcp(8443),
+            description=f"Allow inbound RDP traffic from prefix list {prefix_list}",
+        )
+
+
 class EfsSecurityGroup(SimpleSecurityGroup):
     def __init__(self, scope: Construct, vpc: ec2.Vpc):
         super().__init__(scope, name="EFS-Secure", description="Allow EFS traffic within the VPC", vpc=vpc)
@@ -71,4 +81,19 @@ class FsxSecurityGroup(SimpleSecurityGroup):
             peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
             connection=ec2.Port.tcp_range(start_port=1018, end_port=1023),
             description=f"Allow inbound FSx traffic from the VPC {vpc.vpc_id}",
+        )
+
+
+class FileCacheSecurityGroup(SimpleSecurityGroup):
+    def __init__(self, scope: Construct, vpc: ec2.Vpc):
+        super().__init__(scope, name="FileCache-Secure", description="Allow File Cache traffic within the VPC", vpc=vpc)
+        self.add_ingress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(988),
+            description=f"Allow inbound File Cache traffic from the VPC {vpc.vpc_id}",
+        )
+        self.add_ingress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp_range(start_port=1018, end_port=1023),
+            description=f"Allow inbound File Cache traffic from the VPC {vpc.vpc_id}",
         )
