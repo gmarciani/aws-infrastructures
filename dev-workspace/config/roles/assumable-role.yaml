@@ -1,0 +1,11 @@
+Name: devworkspace.generic.assumable.role
+Description: Role assumable by specific AWS accounts.
+AssumedBy:
+  - 319414405305
+  - 012345678910
+PolicyStatements:
+  - Effect: Deny
+    Actions:
+      - "*"
+    Resources:
+      - "*"

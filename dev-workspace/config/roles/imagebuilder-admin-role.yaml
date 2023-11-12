@@ -1,0 +1,13 @@
+Name: devworkspace.ec2.imagebuilder.role
+Description: Role assumed by EC2 instances launched by ImageBuilder.
+AssumedBy:
+  - ec2.amazonaws.com
+AwsManagedPolicies:
+  - AmazonSSMManagedInstanceCore
+  - EC2InstanceProfileForImageBuilderECRContainerBuilds
+  - EC2InstanceProfileForImageBuilder
+PolicyStatements:
+  - Actions:
+      - ssm:sendCommand
+    Resources:
+      - arn:*:ec2:*:${AWS::AccountId}:instance/*

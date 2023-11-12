@@ -1,5 +1,6 @@
-Name: EC2SSMRole
+Name: devworkspace.ec2.ssm.role
 Description: Role assumed by EC2 instances to have SSM access.
-AssumedBy: ec2.amazonaws.com
-ManagedPolicies:
-  - arn:${AWS::Partition}:iam::aws:policy/AmazonSSMManagedInstanceCore
+AssumedBy:
+  - ec2.amazonaws.com
+AwsManagedPolicies:
+  - AmazonSSMManagedInstanceCore
