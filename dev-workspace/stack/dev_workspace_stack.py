@@ -34,7 +34,7 @@ class DevWorkspaceStack(Stack):
             )
 
             # Buckets
-            bucket = SimpleBucket(self, name=config["Bucket"]["Name"])
+            bucket = SimpleBucket(self, config=config["Bucket"])
 
             # Roles
             for role_config in config.get("Roles", []):
