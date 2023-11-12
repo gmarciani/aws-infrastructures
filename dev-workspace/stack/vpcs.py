@@ -4,7 +4,7 @@ from common.regions import get_az_name
 from constructs import Construct
 
 VPC_NAME = "DevWorkspaceVPC"
-SUBNET_TYPES = (ec2.SubnetType.PUBLIC, ec2.SubnetType.PRIVATE_WITH_NAT)
+SUBNET_TYPES = (ec2.SubnetType.PUBLIC, ec2.SubnetType.PRIVATE_WITH_EGRESS)
 
 
 class SimpleVpc(ec2.Vpc):
@@ -13,7 +13,7 @@ class SimpleVpc(ec2.Vpc):
             scope=scope,
             id=VPC_NAME,
             vpc_name=VPC_NAME,
-            cidr=cidr,
+            ip_addresses=ec2.IpAddresses.cidr(cidr),
             enable_dns_hostnames=True,
             enable_dns_support=True,
             max_azs=3,
