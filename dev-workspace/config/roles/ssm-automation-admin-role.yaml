@@ -1,0 +1,6 @@
+Name: devworkspace.ssm.automation.admin.role
+Description: Role assumed by SSM Automations to have administrator access.
+AssumedBy:
+  - ssm.amazonaws.com
+AwsManagedPolicies:
+  - AdministratorAccess
