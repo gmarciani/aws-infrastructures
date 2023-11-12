@@ -1,0 +1,7 @@
+Name: devworkspace.lambda.admin.role
+Description: Role assumed by Lambda functions to have administrator access.
+AssumedBy:
+  - lambda.amazonaws.com
+AwsManagedPolicies:
+  - AWSLambdaExecute
+  - AdministratorAccess

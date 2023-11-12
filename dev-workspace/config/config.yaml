@@ -1,6 +1,11 @@
 MainRegion: us-west-2
 Bucket:
   Name: a-bucket-name
+#  Permissions:
+#    - Path: public
+#      Allowed: "*"
+#    - Path: shared-1
+#      Allowed: 012345678910,109876543210
   PublicPath: public
 KeyPair:
   Name: my-keypair
