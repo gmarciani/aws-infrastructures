@@ -67,6 +67,7 @@ class DevWorkspaceStack(Stack):
         # Networking
         vpc = SimpleVpc(
             self,
+            name=config["Vpc"]["Name"],
             cidr=config["Vpc"]["Cidr"],
             region_metadata=config["Regions"][region],
         )
