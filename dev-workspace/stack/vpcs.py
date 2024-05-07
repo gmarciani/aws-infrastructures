@@ -17,7 +17,7 @@ class SimpleVpc(ec2.Vpc):
             enable_dns_support=True,
             max_azs=3,
             subnet_configuration=[
-                ec2.SubnetConfiguration(name=f"{name}/{subnet_type}", cidr_mask=24, subnet_type=subnet_type)
+                ec2.SubnetConfiguration(name=f"{name}/{subnet_type}", cidr_mask=20, subnet_type=subnet_type)
                 for subnet_type in SUBNET_TYPES
             ],
         )
