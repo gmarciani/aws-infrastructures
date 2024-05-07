@@ -11,6 +11,7 @@ Personal AWS infrastructures defined with CDK.
 General:
 
 ```
+npm install -g npm
 npm install -g aws-cdk
 python -m pip install --upgrade pip
 pre-commit install
@@ -19,7 +20,8 @@ pre-commit install
 For specific infrastructure
 
 ```
-pip install -r [Infrastructure]/requirements.txt
+# From within the infrastructure folder (dev-workspace)
+pip install -r requirements.txt
 ```
 
 ## Development
@@ -27,7 +29,8 @@ pip install -r [Infrastructure]/requirements.txt
 To develop a specific infrastructure:
 
 ```
-pip install -r [Infrastructure]/requirements-dev.txt
+# From within the infrastructure folder (eg: dev-workspace)
+pip install -r requirements-dev.txt
 ```
 
 ## Usage
@@ -37,7 +40,8 @@ Personalize your configuration, adapting the configuration files in `[Infrastruc
 or overriding each original config file with your own:
 
 ```
-cp [Infrastructure]/config/config.yaml cp [Infrastructure]/config/config.override.yaml
+# From within the infrastructure folder (eg: dev-workspace)
+cp config/config.yaml [Infrastructure]/config/config.override.yaml
 ```
 
 ### Deployment
@@ -45,6 +49,7 @@ cp [Infrastructure]/config/config.yaml cp [Infrastructure]/config/config.overrid
 Deploy your configuration:
 
 ```
-[Infrastructure]/tools/cdk-deploy-to.sh AWS_ACCOUNT_ID AWS_REGION_NAME [--require-approval never]
-[Infrastructure]/tools/cdk-deploy-everywhere.sh AWS_ACCOUNT_ID [--require-approval never]
+# From within the infrastructure folder (eg: dev-workspace)
+bash tools/cdk-deploy-to.sh AWS_ACCOUNT_ID AWS_REGION_NAME [--require-approval never]
+bash tools/cdk-deploy-everywhere.sh AWS_ACCOUNT_ID [--require-approval never]
 ```
