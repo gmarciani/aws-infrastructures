@@ -16,7 +16,7 @@ from stack.security_groups import (
     FileCacheSecurityGroup,
     FsxSecurityGroup,
     RDPSecurityGroup,
-    SSHSecurityGroup
+    SSHSecurityGroup,
 )
 from stack.vpcs import SimpleVpc
 
