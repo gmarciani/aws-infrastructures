@@ -5,7 +5,14 @@ from constructs import Construct
 
 
 class CodeToBucketPipeline(codepipeline.Pipeline):
-    def __init__(self, scope: Construct, name: str, repositories: dict, bucket: s3.IBucket, config: dict):
+    def __init__(
+        self,
+        scope: Construct,
+        name: str,
+        repositories: dict,
+        bucket: s3.IBucket,
+        config: dict,
+    ):
         super().__init__(scope, name, pipeline_name=name)
 
         # Stages

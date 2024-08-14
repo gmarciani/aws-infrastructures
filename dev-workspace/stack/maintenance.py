@@ -39,7 +39,8 @@ class SimpleMaintenance:
                 window_id=self.window.ref,
                 targets=[
                     ssm.CfnMaintenanceWindowTask.TargetProperty(
-                        key="WindowTargetIds", values=[target.ref for target in self.targets]
+                        key="WindowTargetIds",
+                        values=[target.ref for target in self.targets],
                     )
                 ],
                 priority=idx,

@@ -16,7 +16,12 @@ class SimpleSecurityGroup(ec2.SecurityGroup):
 
 class AllVpcTrafficSecurityGroup(SimpleSecurityGroup):
     def __init__(self, scope: Construct, vpc: ec2.Vpc):
-        super().__init__(scope, name="AllVpcTraffic", description="Allow all traffic within the VPC", vpc=vpc)
+        super().__init__(
+            scope,
+            name="AllVpcTraffic",
+            description="Allow all traffic within the VPC",
+            vpc=vpc,
+        )
         self.add_ingress_rule(
             peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
             connection=ec2.Port.all_tcp(),
@@ -61,7 +66,12 @@ class DcvSecurityGroup(SimpleSecurityGroup):
 
 class EfsSecurityGroup(SimpleSecurityGroup):
     def __init__(self, scope: Construct, vpc: ec2.Vpc):
-        super().__init__(scope, name="EFS-Secure", description="Allow EFS traffic within the VPC", vpc=vpc)
+        super().__init__(
+            scope,
+            name="EFS-Secure",
+            description="Allow EFS traffic within the VPC",
+            vpc=vpc,
+        )
         self.add_ingress_rule(
             peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
             connection=ec2.Port.tcp(2049),
@@ -71,7 +81,12 @@ class EfsSecurityGroup(SimpleSecurityGroup):
 
 class FsxSecurityGroup(SimpleSecurityGroup):
     def __init__(self, scope: Construct, vpc: ec2.Vpc):
-        super().__init__(scope, name="FSX-Secure", description="Allow FSx traffic within the VPC", vpc=vpc)
+        super().__init__(
+            scope,
+            name="FSX-Secure",
+            description="Allow FSx traffic within the VPC",
+            vpc=vpc,
+        )
         self.add_ingress_rule(
             peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
             connection=ec2.Port.tcp(988),
@@ -86,7 +101,12 @@ class FsxSecurityGroup(SimpleSecurityGroup):
 
 class FileCacheSecurityGroup(SimpleSecurityGroup):
     def __init__(self, scope: Construct, vpc: ec2.Vpc):
-        super().__init__(scope, name="FileCache-Secure", description="Allow File Cache traffic within the VPC", vpc=vpc)
+        super().__init__(
+            scope,
+            name="FileCache-Secure",
+            description="Allow File Cache traffic within the VPC",
+            vpc=vpc,
+        )
         self.add_ingress_rule(
             peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
             connection=ec2.Port.tcp(988),

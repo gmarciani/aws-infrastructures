@@ -21,7 +21,11 @@ class CleanupLambda(_lambda.Function):
             code=_lambda.Code.from_asset(os.path.join(os.path.dirname(__file__), "resources/cleanup")),
             memory_size=512,
             timeout=Duration.seconds(900),
-            environment={"REGION": scope.region, "ACCOUNT": scope.account, "CONFIG": json.dumps(config)},
+            environment={
+                "REGION": scope.region,
+                "ACCOUNT": scope.account,
+                "CONFIG": json.dumps(config),
+            },
         )
 
         # Scheduling Rule
@@ -69,7 +73,10 @@ class CleanupLambda(_lambda.Function):
                         "ec2:DeregisterImage",
                     ],
                     resources=[f"arn:{scope.partition}:ec2:{scope.region}::image/*"],
-                    conditions={"StringEquals": {"ec2:Owner": scope.account}, "Bool": {"ec2:Public": "False"}},
+                    conditions={
+                        "StringEquals": {"ec2:Owner": scope.account},
+                        "Bool": {"ec2:Public": "False"},
+                    },
                 )
             )
 

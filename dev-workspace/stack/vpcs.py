@@ -25,13 +25,22 @@ class SimpleVpc(ec2.Vpc):
         Aspects.of(self).add(Tag("Name", name))
         for subnet in self.public_subnets:
             Aspects.of(subnet).add(
-                Tag("Name", f"{name}/{get_az_name(subnet.availability_zone, region_metadata)}/Public")
+                Tag(
+                    "Name",
+                    f"{name}/{get_az_name(subnet.availability_zone, region_metadata)}/Public",
+                )
             )
         for subnet in self.private_subnets:
             Aspects.of(subnet).add(
-                Tag("Name", f"{name}/{get_az_name(subnet.availability_zone, region_metadata)}/Private")
+                Tag(
+                    "Name",
+                    f"{name}/{get_az_name(subnet.availability_zone, region_metadata)}/Private",
+                )
             )
         for subnet in self.isolated_subnets:
             Aspects.of(subnet).add(
-                Tag("Name", f"{name}/{get_az_name(subnet.availability_zone, region_metadata)}/Isolated")
+                Tag(
+                    "Name",
+                    f"{name}/{get_az_name(subnet.availability_zone, region_metadata)}/Isolated",
+                )
             )

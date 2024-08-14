@@ -34,5 +34,9 @@ class SimpleRole(iam.Role):
 
         profile_name = f"{self.role_name}.instance-profile"
         iam.CfnInstanceProfile(
-            scope, f"Profile-{role_name}", instance_profile_name=profile_name, roles=[self.role_name], path="/"
+            scope,
+            f"Profile-{role_name}",
+            instance_profile_name=profile_name,
+            roles=[self.role_name],
+            path="/",
         )

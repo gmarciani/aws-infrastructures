@@ -71,7 +71,9 @@ def cleanup_images(filters):
     ec2_client = boto3.client("ec2", region_name=REGION)
 
     resources = ec2_client.describe_images(
-        Owners=[ACCOUNT], IncludeDeprecated=True, Filters=[{"Name": "is-public", "Values": ["false"]}]
+        Owners=[ACCOUNT],
+        IncludeDeprecated=True,
+        Filters=[{"Name": "is-public", "Values": ["false"]}],
     )["Images"]
 
     resources_to_delete = select_resources_to_delete(resources, filters)
