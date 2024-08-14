@@ -1,17 +1,17 @@
 Documentation:
   - changed-files:
       - any-glob-to-any-file:
-          - docs/**
-          - examples/**
-          - CODE_OF_CONDUCT.md
-          - CONTRIBUTING.md
-          - DEVELOPMENT.md
-          - LICENSE
-          - NOTICE
-          - README.md
-Git:
+        - docs/**
+        - examples/**
+        - CODE_OF_CONDUCT.md
+        - CONTRIBUTING.md
+        - DEVELOPMENT.md
+        - LICENSE
+        - NOTICE
+        - README.md
+Developer Experience:
   - changed-files:
       - any-glob-to-any-file:
-          - .github/**
-          - .gitignore
-          - .pre-commit
+        - .github/**
+        - .gitignore
+        - .pre-commit

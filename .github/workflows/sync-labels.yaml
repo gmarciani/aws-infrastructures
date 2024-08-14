@@ -1,0 +1,23 @@
+name: Sync Labels
+
+on:
+  push:
+    branches:
+      - mainline
+    paths:
+      - .github/labels.yaml
+      - .github/workflows/sync-labels.yaml
+
+jobs:
+  sync:
+    name: Run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Sync Labels
+        uses: b4b4r07/github-labeler@master # 8f4b7f84864484a7bf31766abe9204da3cbe65b3
+        with:
+          config: .github/labels.yaml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

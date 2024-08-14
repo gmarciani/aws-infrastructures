@@ -1,0 +1,69 @@
+labels:
+  - name: Backlog
+    description: Added to team backlog.
+    color: 1D76DB
+  - name: Bug
+    description: Something isn't working.
+    color: D73A4A
+  - name: Dependencies
+    description: Changes to dependencies.
+    color: 4DD3AD
+  - name: Developer Experience
+    description: Improvements or additions related to developer experience.
+    color: A4418D
+  - name: Documentation
+    description: Improvements or additions to documentation.
+    color: F7AC22
+  - name: Duplicate
+    description: This issue or pull request already exists.
+    color: CFD3D7
+  - name: Enhancement
+    description: New feature or improvement.
+    color: A2EEEF
+  - name: Feature Request
+    description: Request for a new feature.
+    color: C2E0C6
+  - name: Help Wanted
+    description: Extra attention is needed.
+    color: 008672
+  - name: Invalid
+    description: This doesn't seem right.
+    color: E4E669
+  - name: Question
+    description: Further information is requested.
+    color: D876E3
+  - name: Security
+    description: Improvements or additions related to security.
+    color: 15631C
+  - name: Skip Changelog Update
+    description: Changing changelog is not required.
+    color: 7FAC53
+  - name: Test
+    description: Improvements or additions related to testing.
+    color: 95C8EA
+  - name: Triage
+    description: The issue must be triaged.
+    color: 985721
+  - name: Wont Fix
+    description: This will not be worked on.
+    color: FFFFFF
+
+repos:
+  - name: gmarciani/aws-infrastructures
+    labels:
+      - Backlog
+      - Bug
+      - Dependencies
+      - Developer Experience
+      - Documentation
+      - Duplicate
+      - Enhancement
+      - Feature Request
+      - Help Wanted
+      - Invalid
+      - Question
+      - Security
+      - Skip Changelog Update
+      - Test
+      - Triage
+      - Wont Fix
