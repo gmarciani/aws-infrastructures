@@ -1,6 +1,8 @@
 import aws_cdk.aws_ssm as ssm
 from constructs import Construct
 
+from common.constants import RESOURCE_NAME_PREFIX
+
 
 class SimpleMaintenance:
     def __init__(self, scope: Construct, config: dict):
@@ -8,7 +10,7 @@ class SimpleMaintenance:
         self.window = ssm.CfnMaintenanceWindow(
             scope,
             f"{name}-Window",
-            name=f"DevWorkspace-{name}-Window",
+            name=f"{RESOURCE_NAME_PREFIX}-{name}-Window",
             allow_unassociated_targets=False,
             cutoff=1,
             duration=3,
@@ -20,7 +22,7 @@ class SimpleMaintenance:
             ssm.CfnMaintenanceWindowTarget(
                 scope,
                 f"{name}-Target-{idx}",
-                name=f"DevWorkspace-{name}-Target-{idx}",
+                name=f"{RESOURCE_NAME_PREFIX}-{name}-Target-{idx}",
                 window_id=self.window.ref,
                 resource_type="INSTANCE",
                 targets=[
@@ -35,7 +37,7 @@ class SimpleMaintenance:
             ssm.CfnMaintenanceWindowTask(
                 scope,
                 f"{name}-Task-{idx}",
-                name=f"DevWorkspace-{name}-Task-{idx}",
+                name=f"{RESOURCE_NAME_PREFIX}-{name}-Task-{idx}",
                 window_id=self.window.ref,
                 targets=[
                     ssm.CfnMaintenanceWindowTask.TargetProperty(

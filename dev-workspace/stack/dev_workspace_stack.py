@@ -1,5 +1,7 @@
 from aws_cdk import Stack, Tags
 from constructs import Construct
+
+from stack.automations import SimpleAutomation
 from stack.buckets import SimpleBucket
 from stack.budgets import SimpleBudget
 from stack.lambdas import CleanupLambda
@@ -93,3 +95,6 @@ class DevWorkspaceStack(Stack):
         # Secrets
         for secret_config in config.get("Secrets", []):
             SimpleSecret(self, name=secret_config["Name"], value=secret_config["Value"])
+
+        # Automations
+        SimpleAutomation(self, vpc=vpc, bucket=bucket)

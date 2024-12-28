@@ -7,6 +7,7 @@ from aws_cdk import aws_events_targets as targets
 from aws_cdk import aws_iam as iam
 from aws_cdk import aws_lambda as _lambda
 from constructs import Construct
+from common.constants import RESOURCE_NAME_PREFIX
 
 
 class CleanupLambda(_lambda.Function):
@@ -14,7 +15,7 @@ class CleanupLambda(_lambda.Function):
         super().__init__(
             scope,
             "CleanupLambda",
-            function_name="DevWorkspace-Cleanup",
+            function_name=f"{RESOURCE_NAME_PREFIX}-Cleanup",
             description="Function that periodically cleans up resources.",
             runtime=_lambda.Runtime.PYTHON_3_9,
             handler="handler.main",
@@ -32,7 +33,7 @@ class CleanupLambda(_lambda.Function):
         rule = events.Rule(
             scope,
             "CleanupLambdaSchedule",
-            rule_name="CleanupLambdaSchedule",
+            rule_name=f"{RESOURCE_NAME_PREFIX}-CleanupLambdaSchedule",
             description="Scheduling for function CleanupLambda",
             enabled=True,
             schedule=events.Schedule.expression(config["Schedule"]),

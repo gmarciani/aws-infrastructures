@@ -1,0 +1,138 @@
+---
+description: |-
+  ## Simple Automation
+  This runbook executes a simple automation.
+schemaVersion: '0.3'
+assumeRole: <% SSM_ASSUME_ROLE %>
+parameters:
+  Debug:
+    type: String
+    description: Enable debug mode.
+    default: "false"
+    allowedValues:
+      - "true"
+      - "false"
+
+mainSteps:
+  - name: RunInstance
+    description: "Run the EC2 instance that will be used to execute the automation."
+    action: aws:runInstances
+    maxAttempts: 3
+    timeoutSeconds: 300
+    onFailure: Abort
+    inputs:
+      ImageId: resolve:ssm:/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-ebs
+      InstanceType: c5.9xlarge
+      MinInstanceCount: '1'
+      MaxInstanceCount: '1'
+      IamInstanceProfileName: <% IAM_INSTANCE_PROFILE_NAME %>
+      SubnetId: <% SUBNET_ID %>
+      MetadataOptions:
+        HttpTokens: required
+      TagSpecifications:
+        - ResourceType: instance
+          Tags:
+            - Key: Name
+              Value: SSMAutomation:SimpleAutomation
+            - Key: SSMAutomation::ExecutionId
+              Value: "{{automation:EXECUTION_ID}}"
+            - Key: SSMAutomation:ExecutionDateTime
+              Value: "{{global:DATE_TIME}}"
+
+  - name: WaitForInstanceRunning
+    description: Wait for the instance to be running
+    action: aws:waitForAwsResourceProperty
+    timeoutSeconds: 300
+    onFailure: step:TerminateInstance
+    inputs:
+      Service: ec2
+      Api: DescribeInstanceStatus
+      InstanceIds: "{{ RunInstance.InstanceIds }}"
+      PropertySelector: $.InstanceStatuses[0].InstanceState.Name
+      DesiredValues:
+        - running
+
+  - name: WaitForInstanceHealthy
+    description: Wait for the instance to pass system status checks.
+    action: aws:waitForAwsResourceProperty
+    timeoutSeconds: 300
+    onFailure: step:TerminateInstance
+    inputs:
+      Service: ec2
+      Api: DescribeInstanceStatus
+      InstanceIds: "{{ RunInstance.InstanceIds }}"
+      PropertySelector: $.InstanceStatuses[0].SystemStatus.Status
+      DesiredValues:
+        - ok
+
+  - name: ExecuteAutomation
+    description: Execute the automation on the EC2 instance.
+    action: aws:runCommand
+    maxAttempts: 1
+    timeoutSeconds: 86400
+    onFailure: step:TerminateInstance
+    inputs:
+      DocumentName: AWS-RunShellScript
+      InstanceIds: "{{RunInstance.InstanceIds}}"
+      CloudWatchOutputConfig:
+        CloudWatchOutputEnabled: 'true'
+        CloudWatchLogGroupName: <% CLOUDWATCH_LOG_GROUP_NAME %>
+      Parameters:
+        executionTimeout: '86400'
+        workingDirectory: /home/ec2-user
+        commands: |-
+          export AWS_DEFAULT_REGION={{global:REGION}}
+
+          SCRIPTS_FOLDER_S3_URI=<% SCRIPTS_FOLDER_S3_URI %>
+          aws s3 cp $SCRIPTS_FOLDER_S3_URI/common.sh .
+          aws s3 cp $SCRIPTS_FOLDER_S3_URI/simple-script.sh .
+
+          sh simple-script.sh \
+          --ssm-parameter-name '/ssm-automations/simple-automation/{{automation:EXECUTION_ID}}' \
+          $([[ {{Debug}} == "true" ]] && echo '--debug' || echo ' ') 2>&1
+
+  - name: DescribeOutput
+    description: Describe the SSM parameter where previous steps stored information to be surfaced as automation outputs.
+    action: aws:executeScript
+    timeoutSeconds: 120
+    maxAttempts: 3
+    onFailure: Abort
+    inputs:
+      Runtime: python3.10
+      Handler: main
+      InputPayload:
+        parameter: "/ssm-automations/simple-automation/{{automation:EXECUTION_ID}}"
+      Script: |-
+        import boto3, json
+        def main(events,context):
+          ssm = boto3.client('ssm')
+          return json.loads(
+            ssm.get_parameter(
+              Name=events['parameter']
+            )['Parameter']['Value'])
+    outputs:
+      - Name: Output1
+        Selector: "$.Payload.Output1"
+        Type: String
+
+  - name: TerminateInstance
+    description: "Terminate the EC2 instance used to execute the simple automation."
+    action: aws:changeInstanceState
+    maxAttempts: 3
+    timeoutSeconds: 300
+    inputs:
+      InstanceIds: "{{RunInstance.InstanceIds}}"
+      DesiredState: terminated
+
+  - name: CleanupSsmParameter
+    description: Remove the SSM parameter used by previous steps to store information.
+    action: aws:executeAwsApi
+    maxAttempts: 3
+    onFailure: Abort
+    inputs:
+      Service: ssm
+      Api: DeleteParameter
+      Name: "/ssm-automations/simple-automation/{{automation:EXECUTION_ID}}"
+
+outputs:
+  - "DescribeOutput.Output1"

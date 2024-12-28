@@ -1,13 +1,13 @@
 import logging
 from os import getenv
-from os.path import abspath, dirname
 
 import aws_cdk as cdk
 from common.config import parse_config
+from common.constants import CONFIG_DIR
 from stack.dev_workspace_stack import DevWorkspaceStack
 
 # Configuration
-config = parse_config(f"{dirname(abspath(__file__))}/config")
+config = parse_config(CONFIG_DIR)
 logging.info("Loaded configuration", config)
 
 # Environment
